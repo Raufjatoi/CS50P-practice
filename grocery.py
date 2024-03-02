@@ -1,3 +1,4 @@
+#6/7
 from collections import defaultdict
 
 d = defaultdict(int)
