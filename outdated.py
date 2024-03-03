@@ -1,22 +1,40 @@
+#10/12
+from datetime import datetime
+
 months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
 ]
 
-def get_date():
-    while True:
+def validate_date(date):
+    for format_string in ['%m/%d/%Y', '%B %d, %Y', '%B %d %Y']:
         try:
-            date_input = input("Enter a date in month-day-year format (e.g., 9/8/1636 or September 8, 1636): ")
-            if '/' in date_input:
-                month, day, year = date_input.split('/')
-            else:
-                month, day, year = date_input.split(' ')
-                month = month.capitalize()
-            month_index = months.index(month) + 1
-            print(f"{year}-{month_index:02d}-{day:02d}")
-            break
-        except (ValueError, IndexError):
-            print("Invalid date format. Please try again.")
+            datetime.strptime(date, format_string)
+            return True
+        except ValueError:
+            continue
+    return False
 
+def convert_to_iso(date):
+    try:
+        parsed_date = datetime.strptime(date, '%m/%d/%Y')
+        return parsed_date.strftime('%Y-%m-%d')
+    except ValueError:
+        try:
+            parsed_date = datetime.strptime(date, '%B %d, %Y')
+            return parsed_date.strftime('%Y-%m-%d')
+        except ValueError:
+            parsed_date = datetime.strptime(date, '%B %d %Y')
+            return parsed_date.strftime('%Y-%m-%d')
+
+def main():
+    while True:
+        user_input = input("Date: ")
+        if validate_date(user_input):
+            iso_date = convert_to_iso(user_input)
+            print(iso_date)
+            break
+        else:
+            pass
 if __name__ == "__main__":
-    get_date()
+    main()
