@@ -1,9 +1,15 @@
 import emoji
 
-def replace_emoji(text):
-    return emoji.emojize(text, use_aliases=True)
+def emojize(p):
+    if '_' in p or ':' in p:
+        return emoji.emojize(p)
+    else:
+        return emoji.emojize(p, use_aliases=True)
+
+def main():
+    emoji_input = input('Input: ')
+    emojized = emojize(emoji_input)
+    print(emojized)
 
 if __name__ == "__main__":
-    user_input = input('Input: ')
-    output = replace_emoji(user_input)
-    print("Output:", output)
+    main()
